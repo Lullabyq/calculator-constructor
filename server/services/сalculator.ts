@@ -1,28 +1,43 @@
 import { Operations } from '../../common/enums'
+import { MAX_DECIMAL_PLACES } from '../constants'
+import type { CalcStrategy } from '../ts/types'
 
-interface CalcStrategy {
-  getResult(a: number, b: number): number;
+
+abstract class CalcTemplate implements CalcStrategy {
+  makeCalculation(a: number, b:number): number {
+    const res = this.getResult(a, b)
+
+    return this.round(res)
+  }
+
+  abstract getResult(a: number, b: number): number
+
+  round(res: number): number {
+    const decimalPrecision = Math.pow(10, MAX_DECIMAL_PLACES)
+
+    return Math.round(res * decimalPrecision) / decimalPrecision
+  }
 }
 
-class AddStrategy implements CalcStrategy {
+class AddStrategy extends CalcTemplate implements CalcStrategy {
   getResult(a: number, b: number): number {
     return a + b
   }
 }
 
-class SubstructStrategy implements CalcStrategy {
+class SubstructStrategy extends CalcTemplate {
   getResult(a: number, b: number): number {
     return a - b
   }
 }
 
-class MultiplyStrategy implements CalcStrategy {
+class MultiplyStrategy extends CalcTemplate {
   getResult(a: number, b: number): number {
     return a * b
   }
 }
 
-class DivideStrategy implements CalcStrategy {
+class DivideStrategy extends CalcTemplate {
   getResult(a: number, b: number): number {
     return a / b
   }
@@ -36,7 +51,7 @@ class Context {
   }
 
   executeStrategy(a: number, b: number): number {
-    return this.strategy.getResult(a, b)
+    return this.strategy.makeCalculation(a, b)
   }
 }
 
