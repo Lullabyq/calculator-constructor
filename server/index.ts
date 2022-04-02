@@ -1,3 +1,5 @@
+import path from 'path'
+
 import dotenv from 'dotenv'
 import express from 'express'
 
@@ -10,6 +12,7 @@ const app = express()
 const PORT = process.env.PORT || 4000
 
 app.use(express.json())
+app.use(express.static(path.resolve(__dirname, '../client/build')))
 app.use(router)
 app.use(errorLogger, errorResponder)
 
