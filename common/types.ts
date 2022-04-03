@@ -1,8 +1,8 @@
 import { Operations } from './enums'
 
 export interface CalcReqBody {
-  number1: number,
-  number2: number,
+  number1: string,
+  number2: string,
   action: Operations
 }
 
@@ -11,7 +11,7 @@ export interface CalcErrorResponse {
 }
 
 export interface CalcSuccessfulResponse {
-  result: number
+  result: string
 }
 
 export type CalcResBody = CalcErrorResponse | CalcSuccessfulResponse

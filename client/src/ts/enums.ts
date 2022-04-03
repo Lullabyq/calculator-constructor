@@ -9,3 +9,10 @@ export const enum ConstructorMode {
   Constructor,
   Preview
 }
+
+export const enum Operations {
+  Addition = 1,
+  Substraction,
+  Multiplication,
+  Division
+}

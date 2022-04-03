@@ -4,10 +4,12 @@ import type { CalcStrategy } from '../ts/types'
 
 
 abstract class CalcTemplate implements CalcStrategy {
-  makeCalculation(a: number, b:number): number {
-    const res = this.getResult(a, b)
+  makeCalculation(a: string, b: string): string {
+    const [number1, number2 ] = this.convertToNumber([a, b])
+    const res = this.getResult(number1, number2)
+    const roundedResult = this.round(res)
 
-    return this.round(res)
+    return this.formatResult(roundedResult)
   }
 
   abstract getResult(a: number, b: number): number
@@ -16,6 +18,22 @@ abstract class CalcTemplate implements CalcStrategy {
     const decimalPrecision = Math.pow(10, MAX_DECIMAL_PLACES)
 
     return Math.round(res * decimalPrecision) / decimalPrecision
+  }
+
+  convertToNumber(arr: string[]): number[] {
+    return arr.map(el => {
+      const [int, decimal] = el.split(',')
+
+      if (!decimal) {
+        return Number(int)
+      }
+
+      return Number(int) + Number(decimal) / Math.pow(10, decimal.length)
+    })
+  }
+
+  formatResult(result: number): string {
+    return String(result).replace('.', ',')
   }
 }
 
@@ -50,15 +68,15 @@ class Context {
     this.strategy = strategy
   }
 
-  executeStrategy(a: number, b: number): number {
+  executeStrategy(a: string, b: string): string {
     return this.strategy.makeCalculation(a, b)
   }
 }
 
 class Calculator {
-    context = new Context()
+  context = new Context()
 
-  calculate(a: number, b: number, action: Operations) {
+  calculate(a: string, b: string, action: Operations) {
     switch(action) {
       case Operations.Addition:
         this.context.setStrategy(new AddStrategy)

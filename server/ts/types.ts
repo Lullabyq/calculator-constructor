@@ -1,18 +1,12 @@
-import { Operations } from "../../common/enums";
-
 export interface RestApiError {
   statusCode: number,
   message: string,
 }
 
-export interface Payload {
-  number1: number,
-  number2: number,
-  action: Operations
-}
-
 export interface CalcStrategy {
-  makeCalculation(a: number, b: number): number;
+  makeCalculation(a: string, b: string): string;
+  convertToNumber(arr: string[]): number[];
   getResult(a: number, b: number): number;
   round(res: number): number;
+  formatResult(res: number): string;
 }

@@ -1,5 +1,5 @@
 export const enum Operations {
-  Addition,
+  Addition = 1,
   Substraction,
   Multiplication,
   Division

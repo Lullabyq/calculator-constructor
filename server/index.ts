@@ -9,7 +9,7 @@ import router from './router'
 dotenv.config({ path: '../.env'})
 
 const app = express()
-const PORT = process.env.PORT || 4000
+const PORT = process.env.PORT || 6000
 
 app.use(express.json())
 app.use(express.static(path.resolve(__dirname, '../client/build')))
