@@ -56,7 +56,7 @@ const calculatorSlice = createSlice({
 
 export default calculatorSlice.reducer
 
-export const { setOperation, setNumber } = calculatorSlice.actions
+export const { setOperation, setNumber, toggleConstructorMode } = calculatorSlice.actions
 
 export const getResult = (state: RootState) => state.calculator.result
 export const getCurrentMode = (state: RootState) => state.calculator.mode
