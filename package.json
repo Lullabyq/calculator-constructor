@@ -9,8 +9,8 @@
     "client": "npm run start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "build": "cd client && npm install && npm run build",
-    "eslint:fix": "eslint --ext .ts,.tsx server/ --color --fix",
-    "eslint": "eslint --ext .ts,.tsx server/ --color"
+    "eslint:fix": "eslint --ext .ts,.tsx server/ --fix && eslint --ext .ts,.tsx client/ --ignore-pattern node_modules --fix",
+    "eslint": "eslint --ext .ts,.tsx server/ && eslint --ext .ts,.tsx client/ --ignore-pattern node_modules"
   },
   "keywords": [],
   "author": "",

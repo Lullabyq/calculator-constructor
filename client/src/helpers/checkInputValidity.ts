@@ -1,4 +1,5 @@
 import { CalculatorInput } from '../store/calculator/initialState'
 
-export default (input: CalculatorInput): boolean =>
-  !Object.values(input).includes('')
+export default function checkInputValidity(input: CalculatorInput): boolean {
+  return !Object.values(input).includes('')
+}

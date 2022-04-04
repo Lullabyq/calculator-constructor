@@ -19,15 +19,20 @@ const calculatorSlice = createSlice({
   initialState,
   reducers: {
     toggleConstructorMode(state, { payload }) {
-      state.mode = payload
+      return {
+        ...initialState,
+        mode: payload
+      }
     },
     setOperation(state, { payload }) {
-      state.input.action = payload
+      if (state.input.number1) {
+        state.input.action = payload
+      }
     },
     setNumber(state, { payload }) {
       state.result = null
 
-      if (state.input.action && state.input.number1) {
+      if (state.input.action) {
         state.input.number2 += String(payload)
 
         return

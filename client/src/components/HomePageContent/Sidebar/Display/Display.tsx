@@ -6,11 +6,7 @@ import classNames from 'classnames'
 
 import styles from './Display.module.scss'
 
-interface DisplayProps {
-  isActive: boolean,
-}
-
-const Display = ({ isActive }: DisplayProps) => {
+const Display = () => {
   const input = useSelector(getCalculatorInput)
   const result = useSelector(getResult)
 
@@ -21,14 +17,16 @@ const Display = ({ isActive }: DisplayProps) => {
   }
 
   return (
-    <Box
-      className={classNames({
-        [styles.display]: true,
-        [styles.inactive]: !isActive,
-      })
-    }>
-      { displayedValue }
+    <Box className={styles.wrapper}>
+      <Box
+        className={classNames({
+          [styles.display]: true,
+        })
+      }>
+        { displayedValue }
+      </Box>
     </Box>
+
   )
 }
 

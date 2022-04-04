@@ -1,34 +1,39 @@
 import { Stack } from '@mui/material'
-import React, { useState } from 'react'
-import ButtonContainer from './ButtonContainer/ButtonContainer'
-import Display from './Display/Display'
-import OperationsBlock from './OperationsBlock/OperationsBlock'
-import SubmitBlock from './SubmitBlock/SubmitBlock'
+import React from 'react'
+import type { DraggableItemType } from '../../../ts/types'
+import DraggableItem from '../../DndHelpers/DraggableItem/DraggableItem'
+import DragCardContainer from '../../DndHelpers/DragCardContainer/DragCardContainer'
 
 import styles from './SideBar.module.scss'
+import DragContainer from '../../DndHelpers/DragContainer/DragContainer'
 
-const SideBar = () => {
-  const [activeStatuses, setActiveStatuses] = useState({
-    display: true,
-    operations: true,
-    buttons: true,
-    submit: true
-  })
+interface SidebarProps {
+  items: DraggableItemType[],
+  activeId: string | null
+}
 
-  const elements = [
-    { component: <Display isActive={ activeStatuses.display }/>, id: 'display' },
-    { component: <OperationsBlock />, id: 'operations' },
-    { component: <ButtonContainer />, id: 'digits' },
-    { component: <SubmitBlock />, id: 'submit' },
-  ]
-
+const SideBar = ({ items, activeId }: SidebarProps) => {
   return (
     <Stack spacing={'12px'}>
-      {elements.map(el => (
-        <div className={styles.card} key={el.id} >
-          { el.component }
-        </div>
-      ))}
+      {items.map(el => {
+        if (el.isOnCanvas || el.id === activeId) {
+          return (
+            <DragContainer key={el.id}>
+              <div className={styles.lockedCard}>
+                { el.component }
+              </div>
+            </DragContainer>
+          )
+        }
+
+        return (
+          <DraggableItem id={el.id} key={el.id}>
+            <DragCardContainer>
+              { el.component }
+            </DragCardContainer>
+          </DraggableItem>
+        )
+        })}
     </Stack>
   )
 }
