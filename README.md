@@ -1,33 +1,26 @@
 # React + Node.js + Express app
 
-## Server Api:
+In this app you can build a working calculator from base elements in whatever order you like with help of Drag&Drops mechanism
 
-1) Request body:
-```
-enum Operations {
-  Addition,
-  Substraction,
-  Multiplication,
-  Division
-}
+There is 2 modes:
 
-{
-  number1: number,
-  number2: number,
-  action: Operations
-}
-```
+|**Mode**   |**Functionality**|
+|:---------:|-----------------|
+|Constructor| User can make use of Drag&Drop benefits in ordering components|
+|Preview    | User is able to make calculations with built calculator|
 
-2) Response body fulfilled:
-```
-{
-  result: number
-}
-```
+## Functionality:
+1) Drag blocks from sidebar to canvas
+2) Reorder blocks *(place will be highlighted)*
+3) Delete block from canvas with double click
+4) Switch to other mode whenever you want
 
-3) Response body rejected:
-```
-{
-  message: string
-}
-```
+## Techologies:
+- Frontend: Typescript, React + React, Material-UI, Eslint.
+- Backend: Express, Node.js
+- Drag&Drop: **dnd/kit** library
+
+## TODO:
+
+- Provide ability to make calculations with more than 2 numbers
+- Correctly display big numbers with `e+24` notation

@@ -5,6 +5,7 @@ import styles from './DragContainer.module.scss'
 
 interface Props {
   children: React.ReactNode,
+  dragging?: boolean,
   visiblyLocked?: boolean,
   unDraggable?: boolean,
   wrappedInCard?: boolean
@@ -12,6 +13,7 @@ interface Props {
 
 const DragContainer = ({
   children,
+  dragging = false,
   unDraggable=false,
   visiblyLocked=false,
   wrappedInCard=false,
@@ -20,6 +22,7 @@ const DragContainer = ({
     <div
       className={classNames({
         [styles.container]: true,
+        [styles.dragging]: dragging,
         [styles.dragDisabled]: unDraggable,
         [styles.locked]: visiblyLocked,
         [styles.card]: wrappedInCard

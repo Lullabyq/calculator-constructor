@@ -1,6 +1,8 @@
+@import '../../../assets/zIndex.scss';
+
+
 .container {
   position: relative;
-  caret-color: red;
 
   &::after {
     content: '';
@@ -10,25 +12,21 @@
     bottom: 0;
     left: 0;
     right: 0;
-    z-index: 1000;
+    z-index: $dragContainer;
     background-color: transparent;
-  }
-
-  &:hover {
     cursor: grab;
   }
+}
 
-  &:active {
+.container.dragging {
+  &::after {
+    content: '';
     cursor: move;
   }
 }
 
 .container.dragDisabled {
-  &:hover {
-    cursor: default;
-  }
-
-  &:active {
+  &::after {
     cursor: no-drop;
   }
 }
@@ -42,14 +40,6 @@
   max-height: 225px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.06), 0px 4px 6px rgba(0, 0, 0, 0.1) !important;
   border-radius: 4px;
-
-  &:hover {
-    cursor: grab;
-  }
-
-  &:active {
-    cursor: move;
-  }
 }
 
 .locked :nth-child(1) {

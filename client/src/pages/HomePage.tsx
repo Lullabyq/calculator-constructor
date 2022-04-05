@@ -10,10 +10,10 @@ import {
   closestCorners,
   rectIntersection,
 } from '@dnd-kit/core'
-import Display from '../components/HomePageContent/Sidebar/Display/Display'
-import OperationsBlock from '../components/HomePageContent/Sidebar/OperationsBlock/OperationsBlock'
-import ButtonContainer from '../components/HomePageContent/Sidebar/ButtonContainer/ButtonContainer'
-import SubmitBlock from '../components/HomePageContent/Sidebar/SubmitBlock/SubmitBlock'
+import Display from '../components/HomePageContent/CalculatorBlocks/Display/Display'
+import OperationsBlock from '../components/HomePageContent/CalculatorBlocks/OperationsBlock/OperationsBlock'
+import ButtonContainer from '../components/HomePageContent/CalculatorBlocks/ButtonContainer/ButtonContainer'
+import SubmitBlock from '../components/HomePageContent/CalculatorBlocks/SubmitBlock/SubmitBlock'
 import DragOverlay from '../components/DndHelpers/DragOverlay/DragOverlay'
 
 import styles from './HomePage.module.scss'
@@ -25,15 +25,16 @@ import type { DraggableItem } from '../ts/types'
 import addIdSuffix from '../helpers/addIdSuffix'
 import removeIdSuffix from '../helpers/removeIdSuffix'
 import { createPortal } from 'react-dom'
+import useCalculatorSensors from '../hooks/useCalculatorSensors'
 
 
 const HomePage = () => {
   const mode = useSelector(getCurrentMode)
   const [draggableItems, setDraggableItems] = useState([
-    { component: <Display />, id: ElementId.Display, isOnCanvas: true },
-    { component: <OperationsBlock />, id: ElementId.Operations, isOnCanvas: true },
-    { component: <ButtonContainer />, id: ElementId.Digits, isOnCanvas: true },
-    { component: <SubmitBlock />, id: ElementId.Equals, isOnCanvas: true },
+    { component: <Display />, id: ElementId.Display, isOnCanvas: false },
+    { component: <OperationsBlock />, id: ElementId.Operations, isOnCanvas: false },
+    { component: <ButtonContainer />, id: ElementId.Digits, isOnCanvas: false },
+    { component: <SubmitBlock />, id: ElementId.Equals, isOnCanvas: false },
   ])
   const [clonedItems, setClonedItems] = useState(
     addIdSuffix<DraggableItem>(draggableItems)
@@ -101,6 +102,7 @@ const HomePage = () => {
     }
   }
 
+  const sensors = useCalculatorSensors()
   const isDevMode = mode === ConstructorMode.Constructor
 
   const activeComponent = draggableItems.find(el => el.id === activeId) ?? null
@@ -108,6 +110,7 @@ const HomePage = () => {
 
   return (
     <DndContext
+      sensors={sensors}
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
       onDragCancel={handleDragCancel}

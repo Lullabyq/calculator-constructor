@@ -8,11 +8,11 @@ import type { DraggableItem } from '../../../ts/types';
 import { useSelector } from 'react-redux';
 import { getCurrentMode } from '../../../store/calculator/calculatorSlice';
 import { ConstructorMode } from '../../../ts/enums';
-import RemoveItemContainer from '../../DndHelpers/RemoveItemContainer/RemoveItemContainer';
 import { DISABLED_BLOCKS } from '../../../constants/calculatorConstants'
 import DragItem from '../../DndHelpers/DragItem/DragItem';
 import { useDroppable } from '@dnd-kit/core';
 import { DROPPABLE_CONTAINER_ID } from '../../../constants/calculatorConstants'
+import RemoveContainer from '../../DndHelpers/RemoveItemContainer/RemoveItemContainer';
 
 
 interface Props {
@@ -65,7 +65,7 @@ const Canvas = ({ items, handleRemove }: Props) => {
               const isLastItem = arr.length - 1 === i
 
               return (
-                <RemoveItemContainer handleRemove={onRemove} key={el.id} >
+                <RemoveContainer key={el.id} handleRemove={onRemove}>
                   <DragItem
                     forceLineAfter={isLastItem}
                     index={i}
@@ -74,7 +74,7 @@ const Canvas = ({ items, handleRemove }: Props) => {
                   >
                     {el.component}
                   </DragItem>
-                </RemoveItemContainer>
+                </RemoveContainer>
               )
             })}
           </>
