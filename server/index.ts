@@ -1,19 +1,26 @@
-import path from 'path'
+import 'dotenv/config'
 
-import dotenv from 'dotenv'
+import path from 'path'
 import express from 'express'
 
 import { errorLogger, errorResponder } from './errors/errorHandler'
 import router from './router'
 
-dotenv.config({ path: '../.env'})
 
 const app = express()
-const PORT = process.env.PORT || 6000
+const PORT = process.env.PORT || 5000
 
 app.use(express.json())
-app.use(express.static(path.resolve(__dirname, '../client/build')))
 app.use(router)
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.resolve(__dirname, '../../client/build')))
+
+  app.get('*', (req, res, next) => {
+    res.sendFile(path.resolve(__dirname, '../../client/build', 'index.html'))
+  })
+}
+
 app.use(errorLogger, errorResponder)
 
 app.listen(PORT, () => {
