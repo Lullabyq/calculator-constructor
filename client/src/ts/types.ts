@@ -1,5 +1,7 @@
-export interface DraggableItemType {
+import { ElementId } from "./enums";
+
+export interface DraggableItem {
   component: React.ReactNode,
-  id: string,
+  id: ElementId,
   isOnCanvas: boolean
 }

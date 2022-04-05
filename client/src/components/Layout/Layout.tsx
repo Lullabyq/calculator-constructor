@@ -2,11 +2,11 @@ import React from 'react'
 
 import styles from './Layout.module.scss'
 
-interface LayoutProps {
+interface Props {
   children: React.ReactNode;
 }
 
-const Layout = ({ children }: LayoutProps) => {
+const Layout = ({ children }: Props) => {
 
   return (
     <div className={styles.container}>

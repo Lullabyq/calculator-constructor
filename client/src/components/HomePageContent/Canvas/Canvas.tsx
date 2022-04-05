@@ -1,36 +1,34 @@
 import React from 'react'
 import { Box, Typography } from '@mui/material'
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
-import { useDroppable } from '@dnd-kit/core'
 import classNames from 'classnames'
 
 import styles from './Canvas.module.scss'
-import { DraggableItemType } from '../../../ts/types';
-import { SortableContext } from '@dnd-kit/sortable';
-import SortableItem from '../../DndHelpers/SortableItem/SortableItem'
+import type { DraggableItem } from '../../../ts/types';
 import { useSelector } from 'react-redux';
 import { getCurrentMode } from '../../../store/calculator/calculatorSlice';
 import { ConstructorMode } from '../../../ts/enums';
 import RemoveItemContainer from '../../DndHelpers/RemoveItemContainer/RemoveItemContainer';
-import { verticalListSortingStrategy } from '@dnd-kit/sortable';
+import { DISABLED_BLOCKS } from '../../../constants/calculatorConstants'
+import DragItem from '../../DndHelpers/DragItem/DragItem';
+import { useDroppable } from '@dnd-kit/core';
+import { DROPPABLE_CONTAINER_ID } from '../../../constants/calculatorConstants'
 
 
-interface CanvasProps {
-  items: DraggableItemType[],
+interface Props {
+  items: DraggableItem[],
   handleRemove(id: string): void,
 }
 
-const Canvas = ({ items, handleRemove }: CanvasProps) => {
+const Canvas = ({ items, handleRemove }: Props) => {
   const mode = useSelector(getCurrentMode)
   const { isOver, setNodeRef } = useDroppable({
-    id: 'droppable'
+    id: DROPPABLE_CONTAINER_ID,
   })
-
-  const displayedBlocks = items.filter(el => el.isOnCanvas)
 
   const isDevMode = mode === ConstructorMode.Constructor
 
-  if (!displayedBlocks.length) {
+  if (!items.length) {
     return (
       <Box
         className={classNames({
@@ -60,25 +58,29 @@ const Canvas = ({ items, handleRemove }: CanvasProps) => {
     >
       {isDevMode
         ? (
-          <SortableContext
-            items={displayedBlocks.map(el => el.id)}
-            strategy={verticalListSortingStrategy}
-          >
-            {displayedBlocks.map(el => {
+          <>
+            {items.map((el, i, arr) => {
               const onRemove = () => handleRemove(el.id)
+              const isDisabled = DISABLED_BLOCKS.includes(el.id)
+              const isLastItem = arr.length - 1 === i
 
               return (
                 <RemoveItemContainer handleRemove={onRemove} key={el.id} >
-                  <SortableItem id={el.id} >
+                  <DragItem
+                    forceLineAfter={isLastItem}
+                    index={i}
+                    id={el.id}
+                    disabled={isDisabled}
+                  >
                     {el.component}
-                  </SortableItem>
+                  </DragItem>
                 </RemoveItemContainer>
               )
             })}
-          </SortableContext>
+          </>
         ) : (
           <>
-            {displayedBlocks.map(el => el.component)}
+            {items.map(el => el.component)}
           </>
         )
       }

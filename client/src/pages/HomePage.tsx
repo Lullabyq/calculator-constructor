@@ -8,7 +8,7 @@ import {
   DragStartEvent,
   DragEndEvent,
   closestCorners,
-  closestCenter
+  rectIntersection,
 } from '@dnd-kit/core'
 import Display from '../components/HomePageContent/Sidebar/Display/Display'
 import OperationsBlock from '../components/HomePageContent/Sidebar/OperationsBlock/OperationsBlock'
@@ -19,30 +19,26 @@ import DragOverlay from '../components/DndHelpers/DragOverlay/DragOverlay'
 import styles from './HomePage.module.scss'
 import { useSelector } from 'react-redux'
 import { getCurrentMode } from '../store/calculator/calculatorSlice'
-import { ConstructorMode } from '../ts/enums'
+import { ConstructorMode, ElementId } from '../ts/enums'
 import { arrayMove } from '@dnd-kit/sortable'
-import type { DraggableItemType } from '../ts/types'
+import type { DraggableItem } from '../ts/types'
 import addIdSuffix from '../helpers/addIdSuffix'
 import removeIdSuffix from '../helpers/removeIdSuffix'
+import { createPortal } from 'react-dom'
 
 
 const HomePage = () => {
   const mode = useSelector(getCurrentMode)
   const [draggableItems, setDraggableItems] = useState([
-    { component: <Display />, id: 'display', isOnCanvas: false },
-    { component: <OperationsBlock />, id: 'operations', isOnCanvas: false },
-    { component: <ButtonContainer />, id: 'digits', isOnCanvas: false },
-    { component: <SubmitBlock />, id: 'submit', isOnCanvas: false },
+    { component: <Display />, id: ElementId.Display, isOnCanvas: false },
+    { component: <OperationsBlock />, id: ElementId.Operations, isOnCanvas: false },
+    { component: <ButtonContainer />, id: ElementId.Digits, isOnCanvas: false },
+    { component: <SubmitBlock />, id: ElementId.Equals, isOnCanvas: false },
   ])
   const [clonedItems, setClonedItems] = useState(
-    addIdSuffix<DraggableItemType>(draggableItems)
+    addIdSuffix<DraggableItem>(draggableItems)
   )
   const [activeId, setActiveId] = useState<null | string>(null)
-
-  // const handleDragOver = ({ active, over }) => {
-  //   const overId = over?.id
-
-  // }
 
   const handleMoveToSidebar = (id: string): void => {
     setClonedItems(() => clonedItems.map(el =>
@@ -58,10 +54,13 @@ const HomePage = () => {
         isOnCanvas: false
       })
     ))
+
+    setActiveId(null)
   }
 
   const handleDragStart = ({ active }: DragStartEvent) =>
     setActiveId(removeIdSuffix(active.id))
+
   const handleDragCancel = () => setActiveId(null)
 
   const handleDragEnd = ({ active, over }: DragEndEvent) => {
@@ -105,6 +104,7 @@ const HomePage = () => {
   const isDevMode = mode === ConstructorMode.Constructor
 
   const activeComponent = draggableItems.find(el => el.id === activeId) ?? null
+  const canvasElements = draggableItems.filter(el => el.isOnCanvas)
 
   return (
     <DndContext
@@ -113,11 +113,13 @@ const HomePage = () => {
       onDragCancel={handleDragCancel}
       collisionDetection={activeComponent?.isOnCanvas
         ? closestCorners
-        : closestCenter
+        : rectIntersection
       }
-      // onDragOver={handleDragOver}
     >
-      <DragOverlay activeItem={activeComponent} />
+      {createPortal(
+        <DragOverlay activeItem={activeComponent} />,
+        document.body
+      )}
       <Box className={styles.container}>
         <Box className={styles.sidebar}>
           {isDevMode &&
@@ -127,7 +129,7 @@ const HomePage = () => {
         <Box className={styles.section}>
           <ModeToggler />
           <Canvas
-            items={draggableItems}
+            items={canvasElements}
             handleRemove={handleMoveToSidebar}
           />
         </Box>

@@ -1,22 +1,22 @@
 import React from 'react'
 import { DragOverlay as DndOverlay } from '@dnd-kit/core'
-import { DraggableItemType } from '../../../ts/types'
-import DragCardContainer from '../DragCardContainer/DragCardContainer'
+import type { DraggableItem } from '../../../ts/types'
+import DragContainer from '../DragContainer/DragContainer'
 
-interface DragOverlayProps {
-  activeItem: DraggableItemType | null,
+interface Props {
+  activeItem: DraggableItem | null,
 }
 
-const DragOverlay = ({ activeItem }: DragOverlayProps) => {
-  if (!activeItem || activeItem.isOnCanvas ) {
+const DragOverlay = ({ activeItem }: Props) => {
+  if (!activeItem) {
     return null
   }
 
   return (
-    <DndOverlay>
-      <DragCardContainer>
+    <DndOverlay style={{ cursor: 'move' }}>
+      <DragContainer wrappedInCard={!activeItem.isOnCanvas}>
         { activeItem.component }
-      </DragCardContainer>
+      </DragContainer>
     </DndOverlay>
   )
 }

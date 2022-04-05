@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { calculate } from '../../api/calculator'
 import { CalcReqBody, CalcErrorResponse, CalcSuccessfulResponse } from '../../../../common/types'
 import { initialState } from './initialState'
-import { FetchStatus } from '../../ts/enums'
+import { FetchStatus, Operations } from '../../ts/enums'
 import type { RootState } from '../store'
 
 export const makeCalculation = createAsyncThunk(
@@ -25,7 +25,29 @@ const calculatorSlice = createSlice({
       }
     },
     setOperation(state, { payload }) {
-      if (state.input.number1) {
+      if (payload === Operations.Substraction) {
+        if (state.input.number1 === '') {
+          return {
+            ...state,
+            input: {
+              ...state.input,
+              number1: '-'
+            }
+          }
+        }
+
+        if (state.input.action && state.input.number2 === '') {
+          return {
+            ...state,
+            input: {
+              ...state.input,
+              number2: '-'
+            }
+          }
+        }
+      }
+
+      if (state.input.number1 !== '' && !state.input.action) {
         state.input.action = payload
       }
     },

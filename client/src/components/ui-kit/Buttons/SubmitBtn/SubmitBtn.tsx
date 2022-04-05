@@ -3,14 +3,14 @@ import { LoadingButton } from '@mui/lab'
 
 import styles from './SubmitBtn.module.scss'
 
-interface RegularBtnProps {
+interface Props {
   onClick(): void,
   children: React.ReactNode,
   isLoading: boolean,
   isDisabled: boolean
 }
 
-const SubmitBtn = ({ onClick, children, isLoading, isDisabled }: RegularBtnProps) => {
+const SubmitBtn = ({ onClick, children, isLoading, isDisabled }: Props) => {
   return (
     <LoadingButton
       variant='contained'

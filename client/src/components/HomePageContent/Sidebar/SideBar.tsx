@@ -1,37 +1,38 @@
 import { Stack } from '@mui/material'
 import React from 'react'
-import type { DraggableItemType } from '../../../ts/types'
-import DraggableItem from '../../DndHelpers/DraggableItem/DraggableItem'
-import DragCardContainer from '../../DndHelpers/DragCardContainer/DragCardContainer'
-
-import styles from './SideBar.module.scss'
+import type { DraggableItem } from '../../../ts/types'
 import DragContainer from '../../DndHelpers/DragContainer/DragContainer'
+import removeIdSuffix from '../../../helpers/removeIdSuffix'
+import DragItem from '../../DndHelpers/DragItem/DragItem'
 
-interface SidebarProps {
-  items: DraggableItemType[],
+
+interface Props {
+  items: DraggableItem[],
   activeId: string | null
 }
 
-const SideBar = ({ items, activeId }: SidebarProps) => {
+const SideBar = ({ items, activeId }: Props) => {
   return (
     <Stack spacing={'12px'}>
       {items.map(el => {
-        if (el.isOnCanvas || el.id === activeId) {
+        if (el.isOnCanvas || removeIdSuffix(el.id) === activeId) {
           return (
-            <DragContainer key={el.id}>
-              <div className={styles.lockedCard}>
-                { el.component }
-              </div>
+            <DragContainer
+              key={el.id}
+              unDraggable
+              visiblyLocked
+            >
+              { el.component }
             </DragContainer>
           )
         }
 
         return (
-          <DraggableItem id={el.id} key={el.id}>
-            <DragCardContainer>
+          <DragItem id={el.id} key={el.id}>
+            <DragContainer wrappedInCard>
               { el.component }
-            </DragCardContainer>
-          </DraggableItem>
+            </DragContainer>
+          </DragItem>
         )
         })}
     </Stack>

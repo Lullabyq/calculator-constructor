@@ -16,3 +16,10 @@ export const enum Operations {
   Multiplication,
   Division
 }
+
+export const enum ElementId {
+  Display = 'display',
+  Operations = 'operations',
+  Digits = 'digits',
+  Equals = 'equals'
+}

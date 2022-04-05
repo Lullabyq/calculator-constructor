@@ -1,5 +1,6 @@
 .container {
   position: relative;
+  caret-color: red;
 
   &::after {
     content: '';
@@ -12,4 +13,45 @@
     z-index: 1000;
     background-color: transparent;
   }
+
+  &:hover {
+    cursor: grab;
+  }
+
+  &:active {
+    cursor: move;
+  }
+}
+
+.container.dragDisabled {
+  &:hover {
+    cursor: default;
+  }
+
+  &:active {
+    cursor: no-drop;
+  }
+}
+
+.card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 240px;
+  min-height: 60px;
+  max-height: 225px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.06), 0px 4px 6px rgba(0, 0, 0, 0.1) !important;
+  border-radius: 4px;
+
+  &:hover {
+    cursor: grab;
+  }
+
+  &:active {
+    cursor: move;
+  }
+}
+
+.locked :nth-child(1) {
+  opacity: .5;
 }

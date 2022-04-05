@@ -3,12 +3,12 @@ import { Button } from '@mui/material'
 
 import styles from './RegularBtn.module.scss'
 
-interface RegularBtnProps {
+interface Props {
   onClick(): void,
   children: React.ReactNode,
 }
 
-const RegularBtn = ({ onClick, children }: RegularBtnProps) => {
+const RegularBtn = ({ onClick, children }: Props) => {
   return (
     <Button className={styles.btn} onClick={onClick}>
       { children }

@@ -1,12 +1,11 @@
 import React from 'react'
 
-interface RemoveItemContainerProps {
+interface Props {
   handleRemove(): void,
   children: React.ReactNode
 }
 
-const RemoveItemContainer = ({ handleRemove, children }:RemoveItemContainerProps) => {
-
+const RemoveItemContainer = ({ handleRemove, children }: Props) => {
   return (
     <div onDoubleClick={handleRemove}>
       { children }

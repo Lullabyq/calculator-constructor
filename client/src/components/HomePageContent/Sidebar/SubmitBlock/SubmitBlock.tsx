@@ -1,5 +1,5 @@
 import React from 'react'
-import SubmitBtn from '../../../../ui-kit/Buttons/SubmitBtn/SubmitBtn'
+import SubmitBtn from '../../../ui-kit/Buttons/SubmitBtn/SubmitBtn'
 import { useDispatch, useSelector } from 'react-redux'
 import { makeCalculation, getCalculatorInput, getCalculationStatus, getCurrentMode } from '../../../../store/calculator/calculatorSlice'
 import { ConstructorMode, FetchStatus } from '../../../../ts/enums'

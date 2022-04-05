@@ -1,5 +1,5 @@
 import React from 'react'
-import RegularBtn from '../../../../ui-kit/Buttons/RegularBtn/RegularBtn'
+import RegularBtn from '../../../ui-kit/Buttons/RegularBtn/RegularBtn'
 import { useDispatch } from 'react-redux'
 import { setNumber } from '../../../../store/calculator/calculatorSlice'
 

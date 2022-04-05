@@ -1,11 +1,11 @@
 import React from 'react'
 import { Card } from '@mui/material'
 
-interface ItemsContainerProps {
+interface Props {
   children: React.ReactNode;
 }
 
-const ItemsContainer = ({ children }: ItemsContainerProps) => {
+const ItemsContainer = ({ children }: Props) => {
   return (
     <Card>
       { children }
