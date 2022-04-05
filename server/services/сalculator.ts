@@ -1,7 +1,6 @@
 import { Operations } from '../../common/enums'
-import { MAX_DECIMAL_PLACES , ERROR_MESSAGE } from '../constants'
+import { MAX_DIGITS , ERROR_MESSAGE } from '../constants'
 import type { CalcStrategy } from '../ts/types'
-
 
 
 abstract class CalcTemplate implements CalcStrategy {
@@ -16,7 +15,16 @@ abstract class CalcTemplate implements CalcStrategy {
   abstract getResult(a: number, b: number): number
 
   round(res: number): number {
-    const decimalPrecision = Math.pow(10, MAX_DECIMAL_PLACES)
+    if (res % Math.floor(res) === 0) {
+      return res
+    }
+
+    const maxDeicimalDigits = MAX_DIGITS - String(res).split('.')[0].length - 1
+    const decimalPrecision = Math.pow(10, maxDeicimalDigits)
+
+    if (maxDeicimalDigits <= 0) {
+      return Math.round(res)
+    }
 
     return Math.round(res * decimalPrecision) / decimalPrecision
   }

@@ -20,14 +20,18 @@ const Display = () => {
 
   return (
     <Box className={styles.wrapper}>
-      <Box
-        className={classNames({
+      <Box className={classNames({
           [styles.display]: true,
-          [styles.text]: error,
-          [styles.value]: !isDefault
+          [styles.digits]: !isDefault
         })
       }>
-        { displayedValue ?? '0' }
+        <Box className={classNames({
+          [styles.digitsArea]: true,
+          [styles.text]: error,
+          [styles.value]: !isDefault
+        })}>
+          { displayedValue ?? '0' }
+        </Box>
       </Box>
     </Box>
 

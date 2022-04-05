@@ -12,7 +12,10 @@
   font-weight: 800;
   color: $grey900;
   border-radius: 6px;
-  overflow: hidden;
+}
+
+.display.digits {
+  padding: 25px 8px 4px 17px;
 }
 
 .wrapper {
@@ -26,12 +29,16 @@
   opacity: .5;
 }
 
-.text {
-  padding: 25px 8px 4px;
-  font-size: 2.4rem;
-}
+.digitsArea {
+  display: flex;
+  justify-content: flex-end;
+  overflow: hidden;
 
-.value {
-  padding: 25px 8px 4px;
-  font-size: 1.9rem;
+  &.text {
+    font-size: 2.4rem;
+  }
+
+  &.value {
+    font-size: 1.9rem;
+  }
 }

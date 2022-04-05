@@ -4,6 +4,7 @@ import { CalcReqBody, CalcErrorResponse, CalcSuccessfulResponse } from '../../..
 import { initialState } from './initialState'
 import { FetchStatus, Operations } from '../../ts/enums'
 import type { RootState } from '../store'
+import { DEFAULT_ERROR_MESSAGE } from '../../constants/calculatorConstants'
 
 export const makeCalculation = createAsyncThunk(
   'calculator/makeCalculation',
@@ -14,7 +15,7 @@ export const makeCalculation = createAsyncThunk(
       return response.data
     } catch (err: any) {
       if (!err.response.data.message) {
-        throw err
+        rejectWithValue(err.response.data)
       }
 
       return rejectWithValue(err.response.data)
@@ -93,7 +94,9 @@ const calculatorSlice = createSlice({
       })
       .addCase(makeCalculation.rejected, (state, { payload }) => {
         state.calculationStatus = FetchStatus.Rejected
-        state.errorMessage = (payload as CalcErrorResponse).message ?? null
+        state.errorMessage = !payload
+          ? (payload as CalcErrorResponse).message
+          : DEFAULT_ERROR_MESSAGE
         state.input = initialState.input
       })
   }
