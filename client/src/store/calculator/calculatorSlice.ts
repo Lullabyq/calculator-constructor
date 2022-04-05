@@ -7,12 +7,23 @@ import type { RootState } from '../store'
 
 export const makeCalculation = createAsyncThunk(
   'calculator/makeCalculation',
-  async (body: CalcReqBody) => {
-    const response = await calculate(body)
+  async (body: CalcReqBody, { rejectWithValue }) => {
+    try {
+      const response = await calculate(body)
 
-    return response.data
+      return response.data
+    } catch (err: any) {
+      if (!err.response.data.message) {
+        throw err
+      }
+
+      return rejectWithValue(err.response.data)
+    }
   }
 )
+
+const checkManyZeroes = (payload: string, number: string): boolean =>
+  number === '0' && payload === '0'
 
 const calculatorSlice = createSlice({
   name: 'calculator',
@@ -53,13 +64,20 @@ const calculatorSlice = createSlice({
     },
     setNumber(state, { payload }) {
       state.result = null
+      state.errorMessage = null
 
       if (state.input.action) {
+        if (checkManyZeroes(payload, state.input.number2)) {
+          return
+        }
         state.input.number2 += String(payload)
 
         return
       }
 
+      if (checkManyZeroes(payload, state.input.number1)) {
+        return
+      }
       state.input.number1 += String(payload)
     }
   },
@@ -73,9 +91,9 @@ const calculatorSlice = createSlice({
         state.result = (action.payload as CalcSuccessfulResponse).result
         state.input = initialState.input
       })
-      .addCase(makeCalculation.rejected, (state, action) => {
+      .addCase(makeCalculation.rejected, (state, { payload }) => {
         state.calculationStatus = FetchStatus.Rejected
-        state.errorMessage = (action.payload as CalcErrorResponse).message
+        state.errorMessage = (payload as CalcErrorResponse).message ?? null
         state.input = initialState.input
       })
   }
@@ -90,3 +108,5 @@ export const getCurrentMode = (state: RootState) => state.calculator.mode
 export const getCalculatorInput = (state: RootState) => state.calculator.input
 export const getCalculationStatus = (state: RootState) =>
   state.calculator.calculationStatus
+export const getErrorMessage = (state: RootState) =>
+  state.calculator.errorMessage

@@ -1,6 +1,7 @@
 import { Operations } from '../../common/enums'
-import { MAX_DECIMAL_PLACES } from '../constants'
+import { MAX_DECIMAL_PLACES , ERROR_MESSAGE } from '../constants'
 import type { CalcStrategy } from '../ts/types'
+
 
 
 abstract class CalcTemplate implements CalcStrategy {
@@ -57,6 +58,10 @@ class MultiplyStrategy extends CalcTemplate {
 
 class DivideStrategy extends CalcTemplate {
   getResult(a: number, b: number): number {
+    if (b === 0) {
+      throw new Error(ERROR_MESSAGE.INFINITY)
+    }
+
     return a / b
   }
 }

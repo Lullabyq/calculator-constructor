@@ -18,7 +18,6 @@ const SubmitBlock = () => {
   const isLoading = status === FetchStatus.Pending
   const isDisabled = !checkInputValidity(input)
 
-
   const handleSubmitClick = () =>
     dispatch(makeCalculation(input as ValidCalcInput))
 

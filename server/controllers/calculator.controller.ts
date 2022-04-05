@@ -12,7 +12,7 @@ export default class CalculatorController {
 
       return res.status(200).json({ result })
     } catch (err) {
-      throw new ServerError()
+      throw new ServerError(err.message)
     }
   }
 }

@@ -30,10 +30,10 @@ import { createPortal } from 'react-dom'
 const HomePage = () => {
   const mode = useSelector(getCurrentMode)
   const [draggableItems, setDraggableItems] = useState([
-    { component: <Display />, id: ElementId.Display, isOnCanvas: false },
-    { component: <OperationsBlock />, id: ElementId.Operations, isOnCanvas: false },
-    { component: <ButtonContainer />, id: ElementId.Digits, isOnCanvas: false },
-    { component: <SubmitBlock />, id: ElementId.Equals, isOnCanvas: false },
+    { component: <Display />, id: ElementId.Display, isOnCanvas: true },
+    { component: <OperationsBlock />, id: ElementId.Operations, isOnCanvas: true },
+    { component: <ButtonContainer />, id: ElementId.Digits, isOnCanvas: true },
+    { component: <SubmitBlock />, id: ElementId.Equals, isOnCanvas: true },
   ])
   const [clonedItems, setClonedItems] = useState(
     addIdSuffix<DraggableItem>(draggableItems)

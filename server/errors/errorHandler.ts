@@ -8,8 +8,9 @@ export const errorLogger = (err: RestApiError, req: Request, res: Response, next
   return next(err)
 }
 
-export const errorResponder = (err: RestApiError, req: Request, res: Response) => {
+//eslint-disable-next-line
+export const errorResponder = (err: RestApiError, req: Request, res: Response, next: NextFunction) => {
   const statusCode = err.statusCode ?? 400
 
-  return res.status(statusCode).json({ message: err.message })
+  return res.status(statusCode).send({ message: err.message })
 }

@@ -3,6 +3,7 @@ import { LoadingButton } from '@mui/lab'
 
 import styles from './SubmitBtn.module.scss'
 
+
 interface Props {
   onClick(): void,
   children: React.ReactNode,
@@ -19,7 +20,7 @@ const SubmitBtn = ({ onClick, children, isLoading, isDisabled }: Props) => {
       loading={isLoading}
       disabled={isDisabled}
     >
-      { children }
+      {!isLoading && children }
     </LoadingButton>
   )
 }
