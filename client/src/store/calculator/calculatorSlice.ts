@@ -94,9 +94,7 @@ const calculatorSlice = createSlice({
       })
       .addCase(makeCalculation.rejected, (state, { payload }) => {
         state.calculationStatus = FetchStatus.Rejected
-        state.errorMessage = !payload
-          ? (payload as CalcErrorResponse).message
-          : DEFAULT_ERROR_MESSAGE
+        state.errorMessage = (payload as CalcErrorResponse).message ?? DEFAULT_ERROR_MESSAGE
         state.input = initialState.input
       })
   }

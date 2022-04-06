@@ -2,6 +2,9 @@
 
 In this app you can build a working calculator from base elements in whatever order you like with help of Drag&Drops mechanism
 
+**Link to a deployed app: [https://calc-constructor.herokuapp.com](https://calc-constructor.herokuapp.com)**
+<br>
+
 There is 2 modes:
 
 |**Mode**   |**Functionality**|

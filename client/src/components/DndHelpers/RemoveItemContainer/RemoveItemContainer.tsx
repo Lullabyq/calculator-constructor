@@ -8,7 +8,7 @@ interface Props {
 
 const RemoveItemContainer = ({ handleRemove, children }: Props) => {
   return (
-    <div onDoubleClick={handleRemove}>
+    <div onDoubleClick={handleRemove} style={{ touchAction: 'manipulation' }}>
       { children }
     </div>
   )

@@ -62,7 +62,6 @@ const DragItem = ({
   return (
     <div
       className={classNames({
-        [styles.item]: true,
         [styles.insertAfter]: isLastItem || innerSortBefore,
         [styles.insertBefore]: innerSortAfter
       })}
@@ -70,6 +69,7 @@ const DragItem = ({
       {...listeners}
       {...attributes}
       style={{
+        touchAction: 'none',
         transition,
         transform: CSS.Translate.toString(transform),
       }}
